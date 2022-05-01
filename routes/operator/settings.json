@@ -1,0 +1,13 @@
+[{
+    "minDistance": 7,
+    "minTime":15,
+    "price":0,
+    "waitPrice":1,
+    "minPrice":10,
+    "toCustomer":2,
+    "times":{},
+    "driverDiscount":0,
+    "partnerDiscount":0,
+
+},
+{"_id":{"$oid":"6232f38425c35446ed173925"},"price":{"$numberDouble":"4.5"},"waitPrice":{"$numberInt":"1"},"minPrice":{"$numberInt":"10"},"driverDiscount":{"$numberInt":"15"},"partnerDiscount":{"$numberInt":"10"},"minDistance":{"$numberInt":"7"},"minTime":{"$numberInt":"15"},"toCustomer":{"$numberInt":"2"},"prices":{"Monday":["Deneme"],"Tuesday":[],"Wednesday":[],"Thursday":[],"Friday":[],"Saturday":[],"Sunday":[]}}]
