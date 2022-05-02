@@ -116,6 +116,13 @@ router.get('/drivers', (req, res) => {
 
 
 
+router.get('/drivers/logs', async (req, res) => {
+    return res.send(await driverLocationData.find({}).sort({
+        timestamp: -1
+    }))
+
+})
+
 router.get('/driverTrack', (req, res) =>
     DriverTrack.find({}, (err, data) => {
         if (err) {
@@ -486,7 +493,7 @@ router.post('/drivers/application', (req, res) => {
 
         let isValidFile = files.file ? true : false;
 
-        if (!name || !phone || !il  || !isValidFile || !arac_marka || !arac_model || !arac_yil) {
+        if (!name || !phone || !il || !isValidFile || !arac_marka || !arac_model || !arac_yil) {
             return res.status(400).json({
                 message: 'Invalid Data'
             })

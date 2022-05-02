@@ -7,6 +7,7 @@ const driverLocationData = new Schema({
         required: true
     },
     driverName: {},
+    driverPhone:{},
     location: {},
     status: {
 

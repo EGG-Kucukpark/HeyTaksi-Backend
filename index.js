@@ -354,6 +354,7 @@ io.on("connection", socket => {
                 driverLocationData.create({
                     driverID: driver.id,
                     driverName: driver.name,
+                    driverPhone: driver.phone,
                     location: {
                         lat: driver.lat,
                         lng: driver.lng
