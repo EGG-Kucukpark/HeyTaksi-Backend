@@ -1,0 +1,27 @@
+const discountOffers = require("../../models/website/discountOffersDB");
+
+const getAllOffers = (query) => {
+  return discountOffers.find(query || {}).populate({
+    path: "user",
+    select: "fullname phone",
+  });
+};
+
+const createDiscountOffer = async (offer) => {
+  const check = await discountOffers.findOne({ user: offer.user });
+  if (check) {
+    await discountOffers.findByIdAndDelete(check._id);
+  }
+  const discountOffer = new discountOffers(offer);
+  return discountOffer.save();
+};
+
+const updateDiscountOffer = (query, data) => {
+  return discountOffers.findOneAndUpdate(query, data, { new: true });
+};
+
+module.exports = {
+  getAllOffers,
+  createDiscountOffer,
+  updateDiscountOffer,
+};
