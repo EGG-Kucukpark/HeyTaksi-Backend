@@ -70,7 +70,7 @@ const acceptOffer = async (req, res) => {
       item.emit("customerLoc");
     });
     await updateDiscountOffer(
-      { phone: req.body?.user.phone },
+      { user: req.body?.user._id },
       { status: "accepted" }
     );
     return res.status(200).json({
@@ -79,8 +79,19 @@ const acceptOffer = async (req, res) => {
   }
 };
 
+const rejectOffer = (req, res) => {
+  updateDiscountOffer({ _id: req.body?.offerId }, { status: "rejected" })
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+    });
+};
+
 module.exports = {
   getOffers,
   createOffer,
   acceptOffer,
+  rejectOffer,
 };
