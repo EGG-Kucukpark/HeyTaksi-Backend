@@ -24,12 +24,20 @@ const addUserToOperatorPanel = async (user) => {
   return new instuserLocation(user).save();
 };
 
+const deleteUserFromOperatorPanel = (userPhone) => {
+  return instuserLocation.findOneAndDelete({ userPhone });
+};
+
 const getUserInfo = (userPhone) => {
   return instuserLocation.findOne({ userPhone });
 };
 
 const getDriverInfo = (customerPhone) => {
   return driverTrack.findOne({ customerPhone });
+};
+
+const updateDriverStatus = (query, data) => {
+  return driverTrack.findOneAndUpdate(query, data, { new: true });
 };
 
 const updateUserById = (id, data) => {
@@ -40,16 +48,13 @@ const updateUserByQuery = (query, data) => {
   return webUsers.findByIdAndUpdate(query, data, { new: true });
 };
 
-const deleteUserFromOperatorPanel = (userPhone) => {
-  return instuserLocation.findOneAndDelete({ userPhone });
-};
-
 module.exports = {
   getAllUsers,
   createUser,
   getSingleUser,
   addUserToOperatorPanel,
   deleteUserFromOperatorPanel,
+  updateDriverStatus,
   updateUserById,
   updateUserByQuery,
   getUserInfo,
