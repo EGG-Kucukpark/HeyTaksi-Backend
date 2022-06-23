@@ -59,5 +59,5 @@ const getBestDriverDuration = async (address) => {
 
 module.exports = {
   getBestDriverDuration,
-  findAdressCoordinates,
+  getDuration,
 };

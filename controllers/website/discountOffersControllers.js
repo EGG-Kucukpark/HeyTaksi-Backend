@@ -80,7 +80,7 @@ const acceptOffer = async (req, res) => {
 };
 
 const rejectOffer = (req, res) => {
-  updateDiscountOffer({ _id: req.body?.offerId }, { status: "rejected" })
+  updateDiscountOffer({ _id: req.body?.offerId }, {status: "rejected"})
     .then((response) => {
       res.status(200).json(response);
     })

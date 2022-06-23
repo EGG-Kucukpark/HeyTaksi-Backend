@@ -3,7 +3,7 @@ const discountOffers = require("../../models/website/discountOffersDB");
 const getAllOffers = (query) => {
   return discountOffers.find(query || {}).populate({
     path: "user",
-    select: "fullname phone",
+    select: "_id fullname phone",
   });
 };
 

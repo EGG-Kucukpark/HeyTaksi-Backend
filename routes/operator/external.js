@@ -224,7 +224,7 @@ router.post('/heytaksi/log', async (req, res) => {
                 console.log(item)
                 axios('https://app.turkpark.com.tr/api/callDriver', {
                     params: {
-                        number: item,
+                        number: item
                     }
                 });
             })

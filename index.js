@@ -407,7 +407,7 @@ io.on("connection", (socket) => {
     var driver = data.driver;
 
     let user = await insLocation.findOne({
-      userPhone: data.customer,
+      _id: data.customer,
     });
 
     if (user) {
@@ -474,6 +474,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("startTrip", async (data) => {
+    console.log("tripdata => ",data)
     const filter = {
       userPhone: data.userPhone,
     };
@@ -685,7 +686,7 @@ io.on("connection", (socket) => {
 
     let driverPrice = finalData.price - finalData.price * 0.15;
     let partnerPrice =
-      user.user_type === "partner"
+      user?.user_type === "partner"
         ? finalData.price - finalData.price * 0.1
         : 0;
     let location = customerLocation != null ? customerLocation.location : "";

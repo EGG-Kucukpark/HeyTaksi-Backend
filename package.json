@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon -x 'node index.js || touch app.js'",
-
-    "test": "nodemon index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
