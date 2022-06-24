@@ -1,5 +1,13 @@
 const { default: axios } = require("axios");
-const { getAllUsers, createUser, addUserToOperatorPanel, updateUserById, getUserInfo, getDriverInfo } = require("../../services/website/webUsersService");
+const {
+  getAllUsers,
+  createUser,
+  addUserToOperatorPanel,
+  updateUserById,
+  getUserInfo,
+  getDriverInfo,
+  deleteUserFromOperatorPanel,
+} = require("../../services/website/webUsersService");
 const { getBestDriverDuration, getDuration } = require("../../utils/helpers/locationHelper");
 
 const { userControl } = require("../../utils/helpers/userControlsHelper");
@@ -153,8 +161,47 @@ const autocomplete = async (req, res) => {
   return res.status(400);
 };
 
-const cancelCab = (req, res) => {
-  console.log("jadj")
+const cancelCab = async (req, res) => {
+  if (!req.body?.phone) {
+    return res.status(400).json({
+      message: "Phone is required",
+    });
+  }
+
+  //Check driver if acceppted customer
+  /* const activeDriver = await getDriverInfo({ customerPhone: req.body?.phone });
+  console.log(activeDriver);
+  if (activeDriver) {
+    activeDriver.customerPhone = null;
+    activeDriver.customerName = null;
+    activeDriver.status = "online";
+    activeDriver.save();
+  }
+ */
+  const activeUser = await getUserInfo(req.body?.phone);
+  if (activeUser && activeUser?.status === "online") {
+    const sockets = await req.app.io.fetchSockets();
+    deleteUserFromOperatorPanel(activeUser._id)
+      .then(() => {
+        sockets.map((item) => {
+          item.emit("customerLoc");
+        });
+        res.status(200).json({
+          message: "Müşteri silindi.",
+        });
+      })
+      .catch((error) => {
+        res.status(400).json(error);
+      });
+  } else if (activeUser && activeUser?.status === "trip") {
+    return res.status(400).json({
+      message: "Müşteriye yönlendirme yapılmış bir taksi mevcut.",
+    });
+  } else {
+    return res.status(400).json({
+      message: "Müşteri bulunamadı.",
+    });
+  }
 };
 
 module.exports = {
@@ -164,4 +211,5 @@ module.exports = {
   getCab,
   autocomplete,
   getInfos,
+  cancelCab,
 };

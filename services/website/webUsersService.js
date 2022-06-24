@@ -28,8 +28,8 @@ const getUserInfo = (userPhone) => {
   return instuserLocation.findOne({ userPhone });
 };
 
-const getDriverInfo = (customerPhone) => {
-  return driverTrack.findOne({ customerPhone });
+const getDriverInfo = (query) => {
+  return driverTrack.findOne(query);
 };
 
 const updateUserById = (id, data) => {
@@ -40,8 +40,8 @@ const updateUserByQuery = (query, data) => {
   return webUsers.findByIdAndUpdate(query, data, { new: true });
 };
 
-const deleteUserFromOperatorPanel = (userPhone) => {
-  return instuserLocation.findOneAndDelete({ userPhone });
+const deleteUserFromOperatorPanel = (id) => {
+  return instuserLocation.findByIdAndDelete(id);
 };
 
 module.exports = {
