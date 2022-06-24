@@ -60,7 +60,7 @@ const acceptOffer = async (req, res) => {
     item.emit("newCustomer");
     item.emit("customerLocation");
   });
-  updateDiscountOffer({ user: req.body?.user._id }, { status: "accepted" })
+  updateDiscountOffer({ user: req.body?.user._id, status: "waiting" }, { status: "accepted" })
     .then((response) => {
       res.status(200).json(response);
     })
