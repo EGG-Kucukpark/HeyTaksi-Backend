@@ -7,11 +7,7 @@ const findAdressCoordinates = async (startLoc) => {
     lat: null,
     lng: null,
   };
-  await axios(
-    encodeURI(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${startLoc}+Izmir&key=AIzaSyAvSIFGIo-hmpQwRS-SKcUkqAepbT3LzVA`
-    )
-  )
+  await axios(encodeURI(`https://maps.googleapis.com/maps/api/geocode/json?address=${startLoc}+Izmir&key=AIzaSyAvSIFGIo-hmpQwRS-SKcUkqAepbT3LzVA`))
     .then((res) => {
       addressLocation.lat = res.data.results[0].geometry.location.lat;
       addressLocation.lng = res.data.results[0].geometry.location.lng;
@@ -60,4 +56,5 @@ const getBestDriverDuration = async (address) => {
 module.exports = {
   getBestDriverDuration,
   getDuration,
+  findAdressCoordinates,
 };

@@ -8,8 +8,7 @@ const getAllOffers = (query) => {
 };
 
 const createDiscountOffer = async (offer) => {
-  const check = await discountOffers.findOne({ user: offer.user });
-  console.log(check);
+  const check = await discountOffers.findOne({ user: offer.user, status: "waiting" });
   if (check) {
     await discountOffers.findByIdAndDelete(check._id);
   }

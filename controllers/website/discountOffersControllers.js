@@ -1,6 +1,6 @@
 const { getAllOffers, createDiscountOffer, updateDiscountOffer } = require("../../services/website/discountOffersService");
 const { addUserToOperatorPanel } = require("../../services/website/webUsersService");
-const { getBestDriverDuration } = require("../../utils/helpers/locationHelper");
+const { getBestDriverDuration, findAdressCoordinates } = require("../../utils/helpers/locationHelper");
 const { userControl } = require("../../utils/helpers/userControlsHelper");
 
 const getOffers = (req, res) => {
@@ -47,10 +47,12 @@ const createOffer = async (req, res) => {
 };
 
 const acceptOffer = async (req, res) => {
+  const coordinates = await findAdressCoordinates(req.body?.location?.start);
+
   await addUserToOperatorPanel({
     userName: req.body?.user?.fullname,
     userPhone: req.body?.user.phone,
-    location: results.location,
+    location: coordinates,
     beforePrice: 0,
   });
   const sockets = await req.app.io.fetchSockets();
