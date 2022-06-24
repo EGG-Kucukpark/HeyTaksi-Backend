@@ -60,10 +60,13 @@ const acceptOffer = async (req, res) => {
     item.emit("newCustomer");
     item.emit("customerLocation");
   });
-  await updateDiscountOffer({ user: req.body?.user._id }, { status: "accepted" });
-  return res.status(200).json({
-    message: "İşlem başarılı",
-  });
+  updateDiscountOffer({ user: req.body?.user._id }, { status: "accepted" })
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+    });
 };
 
 const rejectOffer = (req, res) => {
