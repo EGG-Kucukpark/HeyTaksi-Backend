@@ -832,6 +832,7 @@ io.on("connection", (socket) => {
 
   socket.on("autoTrip", async (data) => {
     isAutoPilot = data;
+    socket.broadcast.emit("autoTripMsg", isAutoPilot);
 
     /* if (data.drivers === undefined) return;
 

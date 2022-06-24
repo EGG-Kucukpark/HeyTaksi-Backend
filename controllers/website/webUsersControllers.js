@@ -6,7 +6,6 @@ const {
   updateUserById,
   getUserInfo,
   getDriverInfo,
-  deleteUserFromOperatorPanel,
 } = require("../../services/website/webUsersService");
 const {
   getBestDriverDuration,
@@ -35,7 +34,6 @@ const newUser = async (req, res) => {
   }
 
   let checkUser = await userControl(req.body?.email, req.body?.phone);
-  console.log(checkUser);
 
   if (req.body?.email && checkUser && !checkUser?.email)
     checkUser = await updateUserById(checkUser._id, {
@@ -165,22 +163,7 @@ const autocomplete = async (req, res) => {
   return res.status(400);
 };
 
-const cancelCab = async (req, res) => {
-  if (!req.body?.phone) {
-    return res.status(400).json({
-      message: "Phone is required",
-    });
-  }
-  deleteUserFromOperatorPanel(req.body?.phone)
-    .then(() => {
-      res.status(200).json({
-        message: "Cab canceled",
-      });
-    })
-    .catch((error) => {
-      res.status(400).json(error);
-    });
-};
+const cancelCab = (req, res) => {};
 
 module.exports = {
   getUsers,
@@ -189,5 +172,4 @@ module.exports = {
   getCab,
   autocomplete,
   getInfos,
-  cancelCab,
 };
