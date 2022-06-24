@@ -47,29 +47,21 @@ const createOffer = async (req, res) => {
 };
 
 const acceptOffer = async (req, res) => {
-  const results = await getBestDriverDuration(req.body?.location);
-
-  if (results.duration === 0) {
-    return res.status(400).json({
-      message: "No drivers found",
-    });
-  } else {
-    await addUserToOperatorPanel({
-      userName: req.body?.user?.fullname,
-      userPhone: req.body?.user.phone,
-      location: results.location,
-      beforePrice: 0,
-    });
-    const sockets = await req.app.io.fetchSockets();
-    sockets.map((item) => {
-      item.emit("newCustomer");
-      item.emit("customerLocation");
-    });
-    await updateDiscountOffer({ user: req.body?.user._id }, { status: "accepted" });
-    return res.status(200).json({
-      message: "İşlem başarılı",
-    });
-  }
+  await addUserToOperatorPanel({
+    userName: req.body?.user?.fullname,
+    userPhone: req.body?.user.phone,
+    location: results.location,
+    beforePrice: 0,
+  });
+  const sockets = await req.app.io.fetchSockets();
+  sockets.map((item) => {
+    item.emit("newCustomer");
+    item.emit("customerLocation");
+  });
+  await updateDiscountOffer({ user: req.body?.user._id }, { status: "accepted" });
+  return res.status(200).json({
+    message: "İşlem başarılı",
+  });
 };
 
 const rejectOffer = (req, res) => {

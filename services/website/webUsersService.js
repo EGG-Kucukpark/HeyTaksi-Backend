@@ -16,7 +16,7 @@ const createUser = (user) => {
 };
 
 const addUserToOperatorPanel = async (user) => {
-  const check = await instuserLocation.findOne({ userPhone: user.userPhone });
+  const check = await instuserLocation.findOne({ userPhone: user.userPhone, status: "online" });
 
   if (check) {
     await instuserLocation.findByIdAndDelete(check._id);
