@@ -153,7 +153,9 @@ const autocomplete = async (req, res) => {
   return res.status(400);
 };
 
-const cancelCab = (req, res) => {};
+const cancelCab = (req, res) => {
+  console.log("jadj")
+};
 
 module.exports = {
   getUsers,
