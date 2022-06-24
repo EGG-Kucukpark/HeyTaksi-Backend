@@ -179,8 +179,21 @@ const cancelCab = async (req, res) => {
   }
  */
   const activeUser = await getUserInfo(req.body?.phone);
-  if ((activeUser && activeUser?.status === "online") || (activeUser && activeUser?.status === "trip")) {
+  if (activeUser && activeUser?.status === "online") {
     const sockets = await req.app.io.fetchSockets();
+    deleteUserFromOperatorPanel(activeUser._id)
+      .then(() => {
+        sockets.map((item) => {
+          item.emit("customerLoc");
+        });
+        res.status(200).json({
+          message: "Müşteri silindi.",
+        });
+      })
+      .catch((error) => {
+        res.status(400).json(error);
+      });
+  } else if (activeUser && activeUser?.status === "trip") {
     deleteUserFromOperatorPanel(activeUser._id)
       .then(() => {
         sockets.map((item) => {
