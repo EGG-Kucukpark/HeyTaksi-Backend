@@ -58,7 +58,7 @@ const acceptOffer = async (req, res) => {
       userName: req.body?.user?.fullname,
       userPhone: req.body?.user.phone,
       location: results.location,
-      beforePrice: req.body?.offeredPrice,
+      beforePrice: 0,
     });
     const sockets = await req.app.io.fetchSockets();
     sockets.map((item) => {
