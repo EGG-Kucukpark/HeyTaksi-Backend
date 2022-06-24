@@ -99,6 +99,8 @@ const getCab = async (req, res) => {
     const sockets = await req.app.io.fetchSockets();
     sockets.map((item) => {
       item.emit("customerLoc");
+      item.emit("customerLocation");
+      item.emit("newCustomer");
     });
     return res.status(200).json(results.duration);
   }

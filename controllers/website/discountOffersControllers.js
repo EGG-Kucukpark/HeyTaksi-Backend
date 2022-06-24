@@ -43,6 +43,7 @@ const createOffer = async (req, res) => {
     const sockets = await req.app.io.fetchSockets();
     sockets.map((item) => {
       item.emit("customerLoc");
+      item.emit("newOffer");
     });
   } else {
     return res.status(400).json({
@@ -67,7 +68,8 @@ const acceptOffer = async (req, res) => {
     });
     const sockets = await req.app.io.fetchSockets();
     sockets.map((item) => {
-      item.emit("customerLoc");
+      item.emit("newCustomer");
+      item.emit("customerLocation");
     });
     await updateDiscountOffer(
       { user: req.body?.user._id },
@@ -80,7 +82,7 @@ const acceptOffer = async (req, res) => {
 };
 
 const rejectOffer = (req, res) => {
-  updateDiscountOffer({ _id: req.body?.offerId }, {status: "rejected"})
+  updateDiscountOffer({ _id: req.body?.offerId }, { status: "rejected" })
     .then((response) => {
       res.status(200).json(response);
     })
