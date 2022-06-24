@@ -184,7 +184,9 @@ const cancelCab = async (req, res) => {
     deleteUserFromOperatorPanel(activeUser._id)
       .then(() => {
         sockets.map((item) => {
-          item.emit("cancel", { userPhone: req.body?.phone });
+          item.emit("tripCancel", { userPhone: req.body?.phone });
+          item.emit("driverLoc");
+          item.emit("customerLoc");
         });
         res.status(200).json({
           message: "Müşteri silindi.",
