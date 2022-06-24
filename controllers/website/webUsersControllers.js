@@ -1,16 +1,6 @@
 const { default: axios } = require("axios");
-const {
-  getAllUsers,
-  createUser,
-  addUserToOperatorPanel,
-  updateUserById,
-  getUserInfo,
-  getDriverInfo,
-} = require("../../services/website/webUsersService");
-const {
-  getBestDriverDuration,
-  getDuration,
-} = require("../../utils/helpers/locationHelper");
+const { getAllUsers, createUser, addUserToOperatorPanel, updateUserById, getUserInfo, getDriverInfo } = require("../../services/website/webUsersService");
+const { getBestDriverDuration, getDuration } = require("../../utils/helpers/locationHelper");
 
 const { userControl } = require("../../utils/helpers/userControlsHelper");
 
@@ -155,9 +145,7 @@ const autocomplete = async (req, res) => {
     });
   }
   const apiResponse = await axios.get(
-    encodeURI(
-      `https://maps.googleapis.com/maps/api/place/autocomplete/json?components=country:tr&input=${req.body.input}&language=tr&types=geocode&key=${apiKey}`
-    )
+    encodeURI(`https://maps.googleapis.com/maps/api/place/autocomplete/json?components=country:tr&input=${req.body.input}&language=tr&types=geocode&key=${apiKey}`)
   );
   if (apiResponse.status === 200) {
     return res.status(200).json(apiResponse.data);

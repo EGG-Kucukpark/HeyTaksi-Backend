@@ -1,11 +1,5 @@
-const {
-  getAllOffers,
-  createDiscountOffer,
-  updateDiscountOffer,
-} = require("../../services/website/discountOffersService");
-const {
-  addUserToOperatorPanel,
-} = require("../../services/website/webUsersService");
+const { getAllOffers, createDiscountOffer, updateDiscountOffer } = require("../../services/website/discountOffersService");
+const { addUserToOperatorPanel } = require("../../services/website/webUsersService");
 const { getBestDriverDuration } = require("../../utils/helpers/locationHelper");
 const { userControl } = require("../../utils/helpers/userControlsHelper");
 
@@ -71,10 +65,7 @@ const acceptOffer = async (req, res) => {
       item.emit("newCustomer");
       item.emit("customerLocation");
     });
-    await updateDiscountOffer(
-      { user: req.body?.user._id },
-      { status: "accepted" }
-    );
+    await updateDiscountOffer({ user: req.body?.user._id }, { status: "accepted" });
     return res.status(200).json({
       message: "İşlem başarılı",
     });
