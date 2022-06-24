@@ -26,6 +26,7 @@ const createOffer = async (req, res) => {
       offeredPrice: req.body?.offeredPrice,
       location: req.body?.location,
       estimatedPrice: req.body?.estimatedPrice,
+      estimatedKm: req.body?.estimatedKm,
       user: checkUser._id,
     })
       .then((response) => {

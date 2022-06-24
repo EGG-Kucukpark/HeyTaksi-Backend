@@ -15,6 +15,7 @@ const discountOffersSchema = new mongoose.Schema(
       end: String,
     },
     estimatedPrice: Number,
+    estimatedKm: Number,
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "webUsers",
