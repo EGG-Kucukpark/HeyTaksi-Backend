@@ -179,8 +179,8 @@ const cancelCab = async (req, res) => {
   }
  */
   const activeUser = await getUserInfo(req.body?.phone);
+  const sockets = await req.app.io.fetchSockets();
   if (activeUser && activeUser?.status === "online") {
-    const sockets = await req.app.io.fetchSockets();
     deleteUserFromOperatorPanel(activeUser._id)
       .then(() => {
         sockets.map((item) => {
