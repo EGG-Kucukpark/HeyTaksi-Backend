@@ -179,7 +179,7 @@ const cancelCab = async (req, res) => {
   }
  */
   const activeUser = await getUserInfo(req.body?.phone);
-  if (activeUser && activeUser?.status === "online") {
+  if ((activeUser && activeUser?.status === "online") || (activeUser && activeUser?.status === "trip")) {
     const sockets = await req.app.io.fetchSockets();
     deleteUserFromOperatorPanel(activeUser._id)
       .then(() => {
@@ -193,10 +193,6 @@ const cancelCab = async (req, res) => {
       .catch((error) => {
         res.status(400).json(error);
       });
-  } else if (activeUser && activeUser?.status === "trip") {
-    return res.status(400).json({
-      message: "Müşteriye yönlendirme yapılmış bir taksi mevcut.",
-    });
   } else {
     return res.status(400).json({
       message: "Müşteri bulunamadı.",
