@@ -4,8 +4,9 @@ const offerDateControl = async () => {
   const waitingTime = 60;
   const offers = await discountOffers.find({ status: "waiting" });
   offers.map((item) => {
-    const offerTime = new Date(item.createdAt).setMinutes(offerTime.getMinutes() + waitingTime);
-    if (new Date(offerTime) < new Date()) {
+    const offerTime = new Date(item.createdAt);
+    const timeDiff = offerTime.setMinutes(offerTime.getMinutes() + waitingTime);
+    if (new Date(timeDiff) < new Date()) {
       item.status = "expired";
       item.save();
     }
