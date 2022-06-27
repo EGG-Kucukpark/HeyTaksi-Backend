@@ -4,7 +4,11 @@ const webUsersSchema = new mongoose.Schema(
   {
     fullname: String,
     phone: String,
-    email: String
+    email: String,
+    profileImage: {
+      default: null,
+      type: String,
+    },
   },
   {
     timestamps: true,
