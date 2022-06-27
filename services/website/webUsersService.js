@@ -28,8 +28,8 @@ const getUserInfo = (userPhone) => {
   return instuserLocation.findOne({ userPhone });
 };
 
-const getDriverInfo = (query) => {
-  return driverTrack.findOne(query);
+const getDriverInfo = (customerPhone) => {
+  return driverTrack.findOne({ customerPhone });
 };
 
 const updateUserById = (id, data) => {
