@@ -13,6 +13,21 @@ const getOffers = (req, res) => {
     });
 };
 
+const customerOffers = (req, res) => {
+  if (!req?.query?.id) {
+    return res.status(400).json({
+      message: "User id is required",
+    });
+  }
+  getAllOffers({ user: req?.query?.id })
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+    });
+};
+
 const createOffer = async (req, res) => {
   if (!req.body?.phone && !req.body?.email) {
     return res.status(400).json({
@@ -82,6 +97,7 @@ const rejectOffer = (req, res) => {
 
 module.exports = {
   getOffers,
+  customerOffers,
   createOffer,
   acceptOffer,
   rejectOffer,

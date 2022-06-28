@@ -708,7 +708,11 @@ io.on("connection", (socket) => {
       data.tripId,
       {
         distance: finalData.distance,
-        endLocation,
+        endLocation: {
+          lat: endLocation.lat,
+          lng: endLocation.lng,
+          formatted_address: finalData.endLocation,
+        },
         customerAddressLocation: location,
         driverDiscounted: driverPrice,
         partnerDiscounted: partnerPrice,
