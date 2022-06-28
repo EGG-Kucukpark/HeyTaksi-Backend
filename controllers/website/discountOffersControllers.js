@@ -1,4 +1,4 @@
-const { getAllOffers, createDiscountOffer, updateDiscountOffer } = require("../../services/website/discountOffersService");
+const { getAllOffers, createDiscountOffer, updateDiscountOffer, getCustomerOffers } = require("../../services/website/discountOffersService");
 const { addUserToOperatorPanel } = require("../../services/website/webUsersService");
 const { getBestDriverDuration, findAdressCoordinates } = require("../../utils/helpers/locationHelper");
 const { userControl } = require("../../utils/helpers/userControlsHelper");
@@ -19,7 +19,7 @@ const customerOffers = (req, res) => {
       message: "User id is required",
     });
   }
-  getAllOffers({ user: req?.query?.id })
+  getCustomerOffers({ user: req?.query?.id })
     .then((response) => {
       res.status(200).json(response);
     })

@@ -21,6 +21,11 @@ const getAllOffers = async (query) => {
   });
 };
 
+const getCustomerOffers = async (query) => {
+  await offerDateControl();
+  return discountOffers.find(query || {});
+};
+
 const createDiscountOffer = async (offer) => {
   const check = await discountOffers.findOne({ user: offer.user, status: "waiting" });
   if (check) {
@@ -38,4 +43,5 @@ module.exports = {
   getAllOffers,
   createDiscountOffer,
   updateDiscountOffer,
+  getCustomerOffers,
 };
