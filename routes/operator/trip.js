@@ -12,6 +12,7 @@ const interCity = require("../../models/operator/Trips/interCityDB");
 const instuserLocation = require("../../models/operator/location/instLocation");
 const destinationTrips = require("../../models/operator/Trips/destinationTrips");
 const users = require("../../models/operator/user/userDB");
+const { findCoordinateAddress } = require("../../utils/helpers/locationHelper");
 
 router.use(bodyParser());
 
@@ -97,7 +98,7 @@ router.post("/trip", async (req, res) => {
     phone: customer.userPhone,
   });
 
-  console.log("user => ",customer);
+  console.log("user => ", customer);
 
   let db = (
     await instuserLocation.find({
@@ -110,10 +111,14 @@ router.post("/trip", async (req, res) => {
   let customerPhone = customer.userPhone;
   let driverName = driver.name;
   let customerName = customer.userName;
-
+  const formatted_address = await findCoordinateAddress({
+    lat: driver.lat,
+    lng: driver.lng,
+  });
   let startLocation = {
     lat: driver.lat,
     lng: driver.lng,
+    formatted_address,
   };
 
   let beforePrice = db ? db.beforePrice : 0;
@@ -133,9 +138,7 @@ router.post("/trip", async (req, res) => {
       startLocation,
       timestamp,
       beforePrice,
-      start: luxon.DateTime.local()
-        .setZone("Europe/Istanbul")
-        .toFormat("dd.MM.yyyy HH:mm:ss"),
+      start: luxon.DateTime.local().setZone("Europe/Istanbul").toFormat("dd.MM.yyyy HH:mm:ss"),
       end: "",
     },
     (err, trip) => {
@@ -148,9 +151,7 @@ router.post("/trip", async (req, res) => {
         driverName,
         customerPhone,
         customerName,
-        start: luxon.DateTime.local()
-          .setZone("Europe/Istanbul")
-          .toFormat("dd.MM.yyyy HH:mm:ss"),
+        start: luxon.DateTime.local().setZone("Europe/Istanbul").toFormat("dd.MM.yyyy HH:mm:ss"),
       });
 
       res.json(trip);

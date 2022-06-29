@@ -18,6 +18,20 @@ const findAdressCoordinates = async (startLoc) => {
   return addressLocation;
 };
 
+const findCoordinateAddress = async (location) => {
+  let data = null;
+  await axios
+    .get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=AIzaSyAvSIFGIo-hmpQwRS-SKcUkqAepbT3LzVA`)
+    .then((res) => {
+      data = res.data.results[0].formatted_address;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  return data;
+};
+
 const getActiveDrivers = async () => {
   return await driversDB.find({ status: "online" });
 };
@@ -57,4 +71,5 @@ module.exports = {
   getBestDriverDuration,
   getDuration,
   findAdressCoordinates,
+  findCoordinateAddress,
 };
