@@ -6,7 +6,6 @@ module.exports.newAppointment = (req, res) => {
       message: "Customer is required",
     });
   }
-  req.body.date = new Date(req?.body?.date);
   createAppointment(req?.body)
     .then((response) => {
       res.status(200).json(response);
