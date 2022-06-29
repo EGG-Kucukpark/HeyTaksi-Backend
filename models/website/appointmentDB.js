@@ -10,6 +10,12 @@ const appointmentSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "driver",
     },
+    location: {
+      start: String,
+      end: String,
+    },
+    distance: Number,
+    estimatedPrice: Number,
     date: Date,
     status: {
       type: String,
