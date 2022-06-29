@@ -29,7 +29,9 @@ router.get("/trips", (req, res) => {
 
 router.get("/trips/customer", (req, res) => {
   if (!req?.query?.phone) {
-    return res.status(400).send("Phone number is required");
+    return res.status(400).json({
+      message: "Phone is required",
+    });
   }
   trip.find({ customerPhone: req?.query?.phone }, (err, trips) => {
     if (err) {

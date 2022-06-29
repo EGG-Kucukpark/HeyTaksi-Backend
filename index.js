@@ -34,6 +34,7 @@ const extarnal = require("./routes/operator/external");
 const operatorAuth = require("./routes/operator/operatorAuth");
 const webUsersRoutes = require("./routes/website/webUsersRoutes");
 const discountOffersRoutes = require("./routes/website/discountOffersRoutes");
+const appointmentsRoutes = require("./routes/website/appointmentsRoutes");
 
 // Partner
 
@@ -110,6 +111,7 @@ app.use(extarnal);
 app.use(operatorAuth);
 app.use(webUsersRoutes);
 app.use(discountOffersRoutes);
+app.use(appointmentsRoutes);
 
 //Partner Routes
 
@@ -130,11 +132,7 @@ setInterval(async () => {
   let driverData = await trackDriverDB.find({});
 
   driverData.filter(async (item) => {
-    if (
-      luxon.DateTime.local() - item.last_update > 2 * 60 * 1000 &&
-      item.status != "logout" &&
-      item.status != "offline"
-    ) {
+    if (luxon.DateTime.local() - item.last_update > 2 * 60 * 1000 && item.status != "logout" && item.status != "offline") {
       await trackDriverDB.findByIdAndUpdate(item._id, {
         status: "disconnect",
       });
@@ -142,11 +140,7 @@ setInterval(async () => {
     let diff = luxon.DateTime.local() - item.last_update;
     let time = 3;
 
-    if (
-      diff % time === 0 &&
-      item.status === "disconnect" &&
-      item.phone != "905322629413"
-    ) {
+    if (diff % time === 0 && item.status === "disconnect" && item.phone != "905322629413") {
       axios("https://app.turkpark.com.tr/api/callDriver", {
         params: {
           number: item.phone,
@@ -175,9 +169,7 @@ setInterval(async () => {
 const locationToAddress = async (location) => {
   let data = undefined;
   await axios
-    .get(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=AIzaSyAvSIFGIo-hmpQwRS-SKcUkqAepbT3LzVA`
-    )
+    .get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=AIzaSyAvSIFGIo-hmpQwRS-SKcUkqAepbT3LzVA`)
     .then((res) => {
       data = res.data.results[0].formatted_address;
     })
@@ -211,10 +203,7 @@ io.on("connection", (socket) => {
       console.log(driver, "driver");
 
       var nameArry = user.userName.split(" ");
-      user.userName =
-        nameArry.length > 1
-          ? nameArry[0] + " " + nameArry[1][0].toUpperCase() + "."
-          : nameArry[0];
+      user.userName = nameArry.length > 1 ? nameArry[0] + " " + nameArry[1][0].toUpperCase() + "." : nameArry[0];
 
       if (user && user.isTripOn === false) {
         var finalData = {
@@ -268,9 +257,7 @@ io.on("connection", (socket) => {
               return 0;
             });
 
-            resultDrivers.filter(
-              (item) => options.minDistance >= item.distance / 1000
-            );
+            resultDrivers.filter((item) => options.minDistance >= item.distance / 1000);
 
             console.log(resultDrivers, "resultDrivers");
 
@@ -305,9 +292,7 @@ io.on("connection", (socket) => {
       lng: data.lng,
       phone: data.user.phone,
       status: data.user.status,
-      last_online: luxon.DateTime.local()
-        .setZone("Europe/Istanbul")
-        .toFormat("dd-MM-yyyy HH:mm:ss"),
+      last_online: luxon.DateTime.local().setZone("Europe/Istanbul").toFormat("dd-MM-yyyy HH:mm:ss"),
       last_update: luxon.DateTime.local(),
     };
 
@@ -385,9 +370,7 @@ io.on("connection", (socket) => {
         lng: data.lng,
         phone: data.user.phone,
         status: data.user.status,
-        last_online: luxon.DateTime.local()
-          .setZone("Europe/Istanbul")
-          .toFormat("dd-MM-yyyy HH:mm:ss"),
+        last_online: luxon.DateTime.local().setZone("Europe/Istanbul").toFormat("dd-MM-yyyy HH:mm:ss"),
         last_update: luxon.DateTime.local(),
       });
     }
@@ -412,10 +395,7 @@ io.on("connection", (socket) => {
 
     if (user) {
       var nameArry = user.userName.split(" ");
-      user.userName =
-        nameArry.length > 1
-          ? nameArry[0] + " " + nameArry[1][0].toUpperCase() + "."
-          : nameArry[0];
+      user.userName = nameArry.length > 1 ? nameArry[0] + " " + nameArry[1][0].toUpperCase() + "." : nameArry[0];
       var finalData = {
         customer: user,
         driver: driver,
@@ -453,10 +433,7 @@ io.on("connection", (socket) => {
     };
 
     var nameArry = user.userName.split(" ");
-    user.userName =
-      nameArry.length > 1
-        ? nameArry[0] + " " + nameArry[1][0].toUpperCase() + "."
-        : nameArry[0];
+    user.userName = nameArry.length > 1 ? nameArry[0] + " " + nameArry[1][0].toUpperCase() + "." : nameArry[0];
 
     if (user) {
       var finalData = {
@@ -474,7 +451,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("startTrip", async (data) => {
-    console.log("tripdata => ",data)
+    console.log("tripdata => ", data);
     const filter = {
       userPhone: data.userPhone,
     };
@@ -606,17 +583,11 @@ io.on("connection", (socket) => {
 
       let currentDay = luxon.DateTime.local().toFormat("cccc");
 
-      let currentTime = luxon.DateTime.local()
-        .setZone("Europe/Istanbul")
-        .toFormat("HH:mm:ss");
+      let currentTime = luxon.DateTime.local().setZone("Europe/Istanbul").toFormat("HH:mm:ss");
 
       options[0].prices[currentDay].forEach((element) => {
-        let start = luxon.DateTime.local()
-          .setZone("Europe/Istanbul")
-          .toFormat(element.start, "HH:mm:ss");
-        let end = luxon.DateTime.local()
-          .setZone("Europe/Istanbul")
-          .toFormat(element.end, "HH:mm:ss");
+        let start = luxon.DateTime.local().setZone("Europe/Istanbul").toFormat(element.start, "HH:mm:ss");
+        let end = luxon.DateTime.local().setZone("Europe/Istanbul").toFormat(element.end, "HH:mm:ss");
 
         if (currentTime >= start && currentTime <= end) {
           timeDiff = element.priceRatio;
@@ -685,10 +656,7 @@ io.on("connection", (socket) => {
     finalData.discountedPrice = Math.floor(finalData.finalPrice);
 
     let driverPrice = finalData.price - finalData.price * 0.15;
-    let partnerPrice =
-      user?.user_type === "partner"
-        ? finalData.price - finalData.price * 0.1
-        : 0;
+    let partnerPrice = user?.user_type === "partner" ? finalData.price - finalData.price * 0.1 : 0;
     let location = customerLocation != null ? customerLocation.location : "";
 
     let endLocation = {
@@ -699,9 +667,7 @@ io.on("connection", (socket) => {
     console.log(endLocation, "endLocation");
     console.log(currentTrip.startLocation, "currentTrip.startLocation");
 
-    finalData.startLocation = await locationToAddress(
-      currentTrip.startLocation
-    );
+    finalData.startLocation = await locationToAddress(currentTrip.startLocation);
     finalData.endLocation = await locationToAddress(endLocation);
 
     tripDb.findByIdAndUpdate(
@@ -719,9 +685,7 @@ io.on("connection", (socket) => {
         customerDiscounted: finalData.discountedPrice,
         total: finalData.price,
         waitTime: data.waitTime,
-        end: luxon.DateTime.local()
-          .setZone("Europe/Istanbul")
-          .toFormat("dd-MM-yyyy HH:mm:ss"),
+        end: luxon.DateTime.local().setZone("Europe/Istanbul").toFormat("dd-MM-yyyy HH:mm:ss"),
       },
       (err, trip) => {
         if (err) {
@@ -745,9 +709,7 @@ io.on("connection", (socket) => {
       data.tripId,
       {
         customerDiscounted: data.finalPrice,
-        end: luxon.DateTime.local()
-          .setZone("Europe/Istanbul")
-          .toFormat("dd-MM-yyyy HH:mm:ss"),
+        end: luxon.DateTime.local().setZone("Europe/Istanbul").toFormat("dd-MM-yyyy HH:mm:ss"),
         coupon: true,
         coupon_code: data.coupon_code,
         coupon_discount: data.coupon_discount,
