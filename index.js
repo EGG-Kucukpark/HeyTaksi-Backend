@@ -896,18 +896,17 @@ io.on("connection", (socket) => {
 
     let data = x.customerPhone;
 
+    let user = await insLocation.findOne({
+      userPhone: data,
+    });
+
+    user.status = "online";
+    user.driver = null;
+    await user.save();
+
     stack.filter(async (element) => {
       if (element.customer === data && element.drivers.length > 1) {
         element.drivers.shift();
-        let user = await insLocation.findOne({
-          userPhone: data,
-        });
-
-        user.status = "online";
-        user.driver = null;
-        await user.save();
-
-        console.log("rejecttrip user => ", user);
 
         let finalData = {
           customer: user,
