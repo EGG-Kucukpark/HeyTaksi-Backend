@@ -277,6 +277,7 @@ io.on("connection", (socket) => {
 
   socket.on("cancel", async (data) => {
     console.log("Cancel!");
+    console.log(data);
 
     socket.broadcast.emit("driverLoc");
     socket.broadcast.emit("customerLoc");
