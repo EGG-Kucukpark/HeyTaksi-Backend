@@ -397,8 +397,9 @@ io.on("connection", (socket) => {
       name: driver.name,
       phone: driver.phone,
     };
+    user.status = "redirected_driver"
 
-    user.save();
+    await user.save();
 
     if (user) {
       var nameArry = user.userName.split(" ");
