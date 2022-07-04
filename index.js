@@ -907,6 +907,8 @@ io.on("connection", (socket) => {
         user.driver = null;
         await user.save();
 
+        console.log("rejecttrip user => ", user);
+
         let finalData = {
           customer: user,
           driver: element.drivers[0],
