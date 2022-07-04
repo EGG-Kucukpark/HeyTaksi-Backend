@@ -37,10 +37,14 @@ const getActiveDrivers = async () => {
 };
 
 const getDuration = async (userAddress, driverAdress) => {
-  const duration = await axios(
-    `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userAddress.lat}%2C${userAddress.lng}&destinations=${driverAdress.lat}%2C${driverAdress.lng}%&key=AIzaSyAvSIFGIo-hmpQwRS-SKcUkqAepbT3LzVA`
-  );
-  return duration.data.rows[0].elements[0].duration.value;
+  try {
+    const duration = await axios(
+      `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userAddress.lat}%2C${userAddress.lng}&destinations=${driverAdress.lat}%2C${driverAdress.lng}%&key=AIzaSyAvSIFGIo-hmpQwRS-SKcUkqAepbT3LzVA`
+    );
+    return duration.data.rows[0].elements[0].duration.value;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const getBestDriverDuration = async (address) => {

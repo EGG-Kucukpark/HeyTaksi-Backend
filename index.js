@@ -393,6 +393,13 @@ io.on("connection", (socket) => {
       _id: data.customer,
     });
 
+    user.driver = {
+      name: driver.name,
+      phone: driver.phone,
+    };
+
+    user.save();
+
     if (user) {
       var nameArry = user.userName.split(" ");
       user.userName = nameArry.length > 1 ? nameArry[0] + " " + nameArry[1][0].toUpperCase() + "." : nameArry[0];
