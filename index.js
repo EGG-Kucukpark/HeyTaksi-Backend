@@ -397,7 +397,7 @@ io.on("connection", (socket) => {
       name: driver.name,
       phone: driver.phone,
     };
-    user.status = "redirected_driver"
+    user.status = "redirected_driver";
 
     await user.save();
 
@@ -899,9 +899,13 @@ io.on("connection", (socket) => {
     stack.filter(async (element) => {
       if (element.customer === data && element.drivers.length > 1) {
         element.drivers.shift();
-        const user = await insLocation.findOne({
+        let user = await insLocation.findOne({
           userPhone: data,
         });
+
+        user.status = "online";
+        user.driver = null;
+        await user.save();
 
         let finalData = {
           customer: user,
