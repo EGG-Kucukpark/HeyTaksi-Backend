@@ -7,6 +7,8 @@ const luxon = require("luxon");
 const path = require("path");
 require("./config/database");
 const fs = require("fs");
+const { connectSocket } = require("./utils/helpers/netgsmApi");
+connectSocket();
 
 var options = {
   key: fs.readFileSync("privkey.pem"),
@@ -462,16 +464,23 @@ io.on("connection", (socket) => {
   socket.on("startTrip", async (data) => {
     console.log("tripdata => ", data);
     const filter = {
-      userPhone: data.userPhone,
+      driver: data.userPhone,
     };
 
-    insLocation.findOneAndDelete(filter, (err, doc) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("Silindi");
+    insLocation.findOneAndDelete(
+      {
+        driver: {
+          phone: data.userPhone,
+        },
+      },
+      (err, doc) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Silindi");
+        }
       }
-    });
+    );
 
     let tripData = {
       trip_id: data.tripId,
