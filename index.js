@@ -7,8 +7,6 @@ const luxon = require("luxon");
 const path = require("path");
 require("./config/database");
 const fs = require("fs");
-const { connectSocket } = require("./utils/helpers/netgsmApi");
-connectSocket();
 
 var options = {
   key: fs.readFileSync("privkey.pem"),
