@@ -8,6 +8,8 @@ const path = require("path");
 require("./config/database");
 const fs = require("fs");
 
+const { callDriver } = require("./utils/helpers/netGsmCalls");
+
 var options = {
   key: fs.readFileSync("privkey.pem"),
   cert: fs.readFileSync("cert.pem"),
@@ -141,11 +143,12 @@ setInterval(async () => {
     let time = 3;
 
     if (diff % time === 0 && item.status === "disconnect" && item.phone != "905322629413") {
-      axios("https://app.turkpark.com.tr/api/callDriver", {
+      callDriver(item.phone);
+      /* axios("https://app.turkpark.com.tr/api/callDriver", {
         params: {
           number: item.phone,
         },
-      });
+      }); */
     }
   });
 

@@ -384,8 +384,7 @@ router.put("/timeOptions", async (req, res) => {
 
   db.prices[day][db.prices[day].findIndex((x) => x.id == id)].start = start;
   db.prices[day][db.prices[day].findIndex((x) => x.id == id)].end = end;
-  db.prices[day][db.prices[day].findIndex((x) => x.id == id)].priceRatio =
-    priceRatio;
+  db.prices[day][db.prices[day].findIndex((x) => x.id == id)].priceRatio = priceRatio;
 
   generalDB.findByIdAndUpdate(
     "6232f38425c35446ed173925",
