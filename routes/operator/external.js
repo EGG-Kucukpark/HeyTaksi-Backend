@@ -21,7 +21,7 @@ router.get("/driver/call-customer", (req, res) => {
         ring_timeout: 10,
         crm_id: "XXX",
         wait_response: 1,
-        originate_order: "of",
+        originate_order: "if",
         trunk: 8503040320,
         caller: req?.query?.driver,
         called: req?.query?.customer,
