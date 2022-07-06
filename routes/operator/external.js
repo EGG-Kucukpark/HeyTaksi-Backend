@@ -11,7 +11,7 @@ const generalDB = require("../../models/operator/general/generalDB.js");
 router.use(bodyParser.json());
 
 router.get("/driver/call-customer", (req, res) => {
-  if (!req?.query?.driver || req?.query?.customer) return res.status(400).json({ message: "driver and customer number required" });
+  if (!req?.query?.driver || !req?.query?.customer) return res.status(400).json({ message: "driver and customer number required" });
   axios
     .get("http://crmsntrl.netgsm.com.tr:9111/8503040320/linkup", {
       params: {
