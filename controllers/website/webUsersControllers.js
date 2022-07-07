@@ -14,6 +14,8 @@ const { userControl } = require("../../utils/helpers/userControlsHelper");
 
 const apiKey = "AIzaSyAvSIFGIo-hmpQwRS-SKcUkqAepbT3LzVA";
 
+const { createLog } = require("../../services/website/customerLogService");
+
 const getUsers = (req, res) => {
   getAllUsers()
     .then((response) => {
@@ -84,6 +86,14 @@ const getCab = async (req, res) => {
       message: "No drivers found",
     });
   } else {
+    await createLog({
+      customer: user._id,
+      action: "cab-requested",
+      location: {
+        start: req.body?.address?.start,
+        end: req.body?.address?.end,
+      },
+    });
     await addUserToOperatorPanel({
       userName: user.fullname,
       userPhone: user.phone,
