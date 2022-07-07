@@ -194,8 +194,8 @@ const cancelCab = async (req, res) => {
   const sockets = await req.app.io.fetchSockets();
   if (activeUser && activeUser?.status === "online") {
     deleteUserFromOperatorPanel(activeUser._id)
-      .then(() => {
-        sockets.map((item) => {
+      .then(async () => {
+        sockets.map( (item) => {
           item.emit("customerLoc");
         });
         res.status(200).json({
@@ -211,7 +211,7 @@ const cancelCab = async (req, res) => {
       });
   } else if (activeUser && activeUser?.status === "trip") {
     deleteUserFromOperatorPanel(activeUser._id)
-      .then(() => {
+      .then(async () => {
         await createLog({
           customer: user._id,
           action: "cab-canceled",
