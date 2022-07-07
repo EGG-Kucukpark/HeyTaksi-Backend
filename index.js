@@ -470,7 +470,8 @@ io.on("connection", (socket) => {
       driver: data.userPhone,
     };
 
-    const userLocationdata = await insLocation.findOne(filter)
+    const userLocationdata = await insLocation.findOne(filter);
+    console.log(userLocationdata);
 
     let user = await userControl(null, userLocationdata.userPhone);
 
