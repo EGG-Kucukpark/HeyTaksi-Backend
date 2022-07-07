@@ -64,6 +64,8 @@ const generalDB = require("./models/operator/general/generalDB");
 const destinationTrips = require("./models/operator/Trips/destinationTrips");
 const instuserLocation = require("./models/operator/location/instLocation");
 const heytaksi_log = require("./models/operator/others/heytaksi_log");
+const { createLog } = require("./services/website/customerLogService");
+const { userControl } = require("./utils/helpers/userControlsHelper");
 
 //Settings
 const socketPort = 5555;
@@ -467,6 +469,15 @@ io.on("connection", (socket) => {
     const filter = {
       driver: data.userPhone,
     };
+
+    const userLocationdata = await insLocation.findOne(filter)
+
+    let user = await userControl(null, userLocationdata.userPhone);
+
+    await createLog({
+      customer: user._id,
+      action: "trip-started",
+    });
 
     insLocation.findOneAndDelete(
       {

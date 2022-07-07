@@ -189,6 +189,8 @@ const cancelCab = async (req, res) => {
   }
  */
   const activeUser = await getUserInfo(req.body?.phone);
+  const user = await userControl(req.body?.email, req.body?.phone);
+
   const sockets = await req.app.io.fetchSockets();
   if (activeUser && activeUser?.status === "online") {
     deleteUserFromOperatorPanel(activeUser._id)
@@ -199,6 +201,10 @@ const cancelCab = async (req, res) => {
         res.status(200).json({
           message: "Müşteri silindi.",
         });
+        await createLog({
+          customer: user._id,
+          action: "cab-canceled",
+        });
       })
       .catch((error) => {
         res.status(400).json(error);
@@ -206,6 +212,10 @@ const cancelCab = async (req, res) => {
   } else if (activeUser && activeUser?.status === "trip") {
     deleteUserFromOperatorPanel(activeUser._id)
       .then(() => {
+        await createLog({
+          customer: user._id,
+          action: "cab-canceled",
+        });
         sockets.map((item) => {
           item.emit("tripCancel", { userPhone: req.body?.phone });
           item.emit("driverLoc");
