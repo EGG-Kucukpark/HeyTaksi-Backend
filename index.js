@@ -470,6 +470,13 @@ io.on("connection", (socket) => {
       driver: data.userPhone,
     };
 
+    const deneme = await insLocation.findOne({
+      driver: {
+        phone: data.userPhone,
+      },
+    });
+    console.log(deneme);
+
     insLocation.findOneAndDelete(
       {
         driver: {
