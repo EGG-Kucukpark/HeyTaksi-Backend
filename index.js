@@ -146,11 +146,6 @@ setInterval(async () => {
 
     if (diff % time === 0 && item.status === "disconnect" && item.phone != "905322629413") {
       callDriver(item.phone);
-      /* axios("https://app.turkpark.com.tr/api/callDriver", {
-        params: {
-          number: item.phone,
-        },
-      }); */
     }
   });
 
@@ -469,13 +464,6 @@ io.on("connection", (socket) => {
     const filter = {
       driver: data.userPhone,
     };
-
-    const deneme = await insLocation.findOne({
-      driver: {
-        phone: data.userPhone,
-      },
-    });
-    console.log(deneme);
 
     insLocation.findOneAndDelete(
       {
