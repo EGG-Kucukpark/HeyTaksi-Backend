@@ -5,6 +5,13 @@ const createLog = (data) => {
   return customerLog.save();
 };
 
+const getLogList = () => {
+  return customerLogDB.find().populate({
+    path: "customer",
+    select: "fullname phone",
+  });
+};
+
 const getCustomerIstatistics = async () => {
   const requestedCabs = await customerLogDB.countDocuments({
     action: "cab-requested",
@@ -25,4 +32,5 @@ const getCustomerIstatistics = async () => {
 module.exports = {
   createLog,
   getCustomerIstatistics,
+  getLogList,
 };
