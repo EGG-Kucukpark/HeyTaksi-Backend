@@ -12,9 +12,13 @@ const getCustomerIstatistics = async () => {
   const canceledCabs = await customerLogDB.countDocuments({
     action: "cab-canceled",
   });
+  const trips = await customerLogDB.countDocuments({
+    action: "trip-ended",
+  });
   return {
     requestedCabs,
     canceledCabs,
+    trips,
   };
 };
 

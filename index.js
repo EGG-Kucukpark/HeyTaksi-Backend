@@ -667,7 +667,7 @@ io.on("connection", (socket) => {
     const customer = await userControl(null, data.customerPhone);
     await createLog({
       customer: customer._id,
-      action: "trip_ended",
+      action: "trip-ended",
     });
 
     finalData.distance = parseInt(data.distance.toFixed(1));
