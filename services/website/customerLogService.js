@@ -6,7 +6,7 @@ const createLog = (data) => {
 };
 
 const getLogList = () => {
-  return customerLogDB.find().populate({
+  return customerLogDB.find({ createdAt: -1 }).populate({
     path: "customer",
     select: "fullname phone",
   });
