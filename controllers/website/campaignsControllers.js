@@ -1,6 +1,6 @@
 const { create, list } = require("../../services/website/campaignService");
 
-export const newCampaign = (req, res) => {
+module.exports.newCampaign = (req, res) => {
   create(req.body)
     .then((result) => {
       res.status(200).json(result);
@@ -10,7 +10,7 @@ export const newCampaign = (req, res) => {
     });
 };
 
-export const campaignlist = (req, res) => {
+module.exports.campaignlist = (req, res) => {
   list()
     .then((result) => {
       res.status(200).json(result);

@@ -1,9 +1,9 @@
 const campaignDB = require("../../models/operator/others/campaignsDB");
 
-export const create = (data) => {
+module.exports.create = (data) => {
   return new campaignDB(data).save();
 };
 
-export const list = () => {
+module.exports.list = () => {
   return campaignDB.find({});
 };
