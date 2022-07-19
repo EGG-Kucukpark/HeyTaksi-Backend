@@ -1,4 +1,4 @@
-const { newCampaign, campaignlist, activeCampaigns } = require("../../controllers/website/campaignsControllers");
+const { newCampaign, campaignlist, activeCampaign } = require("../../controllers/website/campaignsControllers");
 const { getIstatistics, logList } = require("../../controllers/website/customerLogsControllers");
 const { checkUserExist, getUsers, newUser, getCab, autocomplete, getInfos, cancelCab } = require("../../controllers/website/webUsersControllers");
 
@@ -15,7 +15,7 @@ router.route("/customer-logs-list").get(logList);
 
 router.route("/campaigns").post(newCampaign);
 router.route("/campaigns").get(campaignlist);
-router.route("/active-campaign").get(activeCampaigns);
+router.route("/active-campaign").get(activeCampaign);
 
 router.route("/autocomplete").post(autocomplete);
 
