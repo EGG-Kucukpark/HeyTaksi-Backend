@@ -1,7 +1,7 @@
 const { create, list, activeCampaignlist, update } = require("../../services/website/campaignService");
-
+const { DateTime } = require("luxon");
 module.exports.newCampaign = async (req, res) => {
-  if (activeCampaignlist()) return res.status(400).json({ message: "Aktif kampanya bulunmaktadır." });
+  if (await activeCampaignlist()) return res.status(400).json({ message: "Aktif kampanya bulunmaktadır." });
   create(req.body)
     .then((result) => {
       res.status(200).json(result);
@@ -24,7 +24,11 @@ module.exports.campaignlist = (req, res) => {
 module.exports.activeCampaign = (req, res) => {
   activeCampaignlist()
     .then((response) => {
-      res.status(200).json(response);
+      if (!response) return res.status(400).json({ message: "Aktif kampanya bulunmaktadır." });
+      let results = response.toObject();
+      results.startDate = DateTime.fromJSDate(response.startDate).toFormat("dd.MM.yyyy HH:mm");
+      results.endDate = DateTime.fromJSDate(response.endDate).toFormat("dd.MM.yyyy HH:mm");
+      res.status(200).json(results);
     })
     .catch((error) => {
       res.status(400).json(error);
