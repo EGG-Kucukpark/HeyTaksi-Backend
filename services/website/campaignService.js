@@ -8,6 +8,10 @@ module.exports.list = (query) => {
   return campaignDB.find(query || {});
 };
 
+module.exports.update = (id, data) => {
+  return campaignDB.findByIdAndUpdate(id, data, { new: true });
+};
+
 module.exports.activeCampaignlist = () => {
   return campaignDB.findOne({
     status: true,
