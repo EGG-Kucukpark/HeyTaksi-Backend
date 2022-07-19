@@ -6,6 +6,10 @@ const campaignSchema = new mongoose.Schema(
     content: String,
     startDate: Date,
     endDate: Date,
+    status: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,
