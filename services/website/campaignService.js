@@ -12,6 +12,10 @@ module.exports.update = (id, data) => {
   return campaignDB.findByIdAndUpdate(id, data, { new: true });
 };
 
+module.exports.remove = (id) => {
+  return campaignDB.findByIdAndDelete(id);
+};
+
 module.exports.activeCampaignlist = () => {
   return campaignDB.findOne({
     status: true,
